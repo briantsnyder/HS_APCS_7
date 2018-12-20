@@ -1,0 +1,15 @@
+public class HelloWorldV2
+{
+    // print two lines of text
+    public static void printTwoLines()
+    {
+        System.out.println("Hello, Virtual World!");
+        System.out.println("It is always a great day for programming.");
+    }
+
+    // main method
+    public static void main(String[ ] args)
+    {
+        printTwoLines();
+    }//end main
+} //end class
