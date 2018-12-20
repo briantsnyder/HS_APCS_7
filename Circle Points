@@ -1,0 +1,19 @@
+import java.util.Scanner;
+public class CirclePoints {
+    public static void main(String [ ] args) {
+        Scanner in = new Scanner (System.in);
+        System.out.print("Enter in a value for the radius ");
+        double radius = in.nextDouble();
+        double x = radius;
+        
+        System.out.println("Points on a Circle with a Radius of " + radius);
+        System.out.printf("%8s%9s%9s%9s\n", "x1", "y1", "x1", "y2");
+        System.out.println("**********************************************");
+        while (x >= -radius) { 
+        double y = Math.sqrt(Math.pow(radius, 2) - Math.pow(x,2));
+        double y2 = -y;
+        System.out.printf("%8.2f%9.2f%9.2f%9.2f\n",x,y,x,y2);
+        x = x - .1;
+    }
+    }
+}
