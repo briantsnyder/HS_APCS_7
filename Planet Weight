@@ -1,0 +1,65 @@
+/**
+ * Write a program that calculates your weight on each planet in the solar system
+ *
+ * Brian Snyder
+ * 11/18/17
+ */
+// imports necessary files
+import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+public class PlanetWeight
+{
+    // method that reads the text file and saves data into an array
+    public static double[] readTextFile() throws IOException{
+        int index = 0;
+        double [] gravity = new double [8];
+        
+        File fileName = new File("planetGravities.txt");
+        Scanner inFile = new Scanner(fileName);
+        while (inFile.hasNext()) {
+            gravity[index] = inFile.nextDouble();
+            index++;
+        }
+        inFile.close();
+        return gravity;
+    }
+    // method that asks the user for a weight in pounds
+    public static double whatWeightInPounds()  {
+        Scanner in = new Scanner (System.in);
+        System.out.print("Enter in a weight in pounds ");
+        double weightInPounds = in.nextDouble();
+        return weightInPounds;
+    }
+    // method that calculates the mass
+    public static double calculateMass (double pounds) {
+        double mass = (pounds * 433.59237); // converts pounds to grams
+        return mass;
+    }
+    // method that calculates the weight on each planet
+    public static double[] calculateWeight(double[] surfaceGravity, double mass) {
+        double [] weight = new double [8];
+        for (int i = 0; i < surfaceGravity.length; i++) {
+            weight[i] = ((mass * (surfaceGravity[i] / 9.8) / 433.59237)); // uses formula and converts so the results are in pounds
+        }
+        return weight; // number is slightly off due to the surface gravity being slightly off
+    }                  // because of the information source
+    // method that displays the results in a formatted table
+    public static void printResults(String [] planetNames, double [] surfaceGravity, double [] weight) {
+        System.out.printf("%32s\n", "My Weight on the Planets");
+        System.out.printf("%8s%13s%18s\n", "Planet", "Gravity", "Weight (lbs)");
+        System.out.println("----------------------------------------");
+        for (int i = 0; i < planetNames.length; i++) {
+            System.out.printf("%2s%-10s%8.2f%15.2f\n", " ", planetNames[i], surfaceGravity[i], weight[i]);
+        }
+    }
+    // main method
+    public static void main(String [] args) throws IOException {
+        double surfaceGravity[] = readTextFile(); // initializes gravity values into an array through the readTextFile method
+        double pounds = whatWeightInPounds(); // asks user for a weight in pounds
+        double mass = calculateMass(pounds); // calculates mass of this weight
+        double weight[] = calculateWeight(surfaceGravity, mass); // calculates the weight for this mass on different planets
+        String [] planetNames = {"Mercury", "Venus", "Earth", "Mars", "Jupiter", "Saturn", "Uranus", "Neptune"}; 
+        printResults(planetNames, surfaceGravity, weight); // prints results
+    }
+}
