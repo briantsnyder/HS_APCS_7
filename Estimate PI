@@ -1,0 +1,69 @@
+/**
+ * Write a program to calculate the value of pi by simulating darts at a dart board
+ *
+ * Brian Snyder
+ * 11/19/18
+ */
+import java.util.Scanner;
+import java.util.Random;
+public class EstimatePi {
+    // asks user for # of darts per trial
+    public static int howManyDarts() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("How many darts per trial? ");
+        int numDarts = in.nextInt();
+        return numDarts;
+    }
+    // asks user for # of trials
+    public static int howManyTrials() {
+        Scanner in = new Scanner(System.in);
+        System.out.print("How many trials? ");
+        int numTrials = in.nextInt();
+        return numTrials;
+    }
+    // generates random numbers for the x and y arrays
+    public static double[] generateRandomNumbers(int numDarts, int numTrials) {
+        double x[] = new double[numDarts];
+        double y[] = new double[numDarts];
+        double pi[] = new double[numTrials]; // estimated value of pi for each trial
+        int hit = 0;
+        Random randNumList = new Random();
+        
+        for (int i = 0; i < numTrials; i++) {
+            hit = 0;
+            for (int j = 0; j < numDarts; j++) {
+                x[j] = randNumList.nextDouble();
+                y[j] = randNumList.nextDouble();
+                // if values of x and y array squared are <= 1, it is within the circle
+                if (Math.pow(x[j],2) + Math.pow(y[j],2) <= 1) {
+                    hit++;
+                }
+            } // calculates value of pi using formula
+            pi[i] = 4 * (hit / (double)numDarts);
+        }
+        return pi;
+    }
+    // calculates average of all the trials
+    public static double calculateAverage(double[] pi, int numTrials) {
+        double average = 0;
+        for (int i = 0; i < numTrials; i++) {
+            average += (pi[i] / numTrials);
+        }
+        return average;
+    }
+    // prints results 
+    public static void printResults(int numTrials, double average, double[] pi) {
+        for (int i = 0; i < numTrials; i++) {
+            System.out.printf("%7s%2s%2s%-2.6f\n", "Trial [", (i+1), "]: pi = ",pi[i]);
+        }
+        System.out.printf("%17s%2.6f\n", "Estimate of pi = ", average);
+    }
+    // main method
+    public static void main (String [] args) {
+        int numDarts = howManyDarts(); // calculates # or darts
+        int numTrials = howManyTrials(); // calculates # of trials
+        double[] pi = generateRandomNumbers(numDarts, numTrials); // generates array of pi values
+        double average = calculateAverage(pi, numTrials); // calculates average
+        printResults(numTrials, average, pi); // prints results
+    } 
+}
